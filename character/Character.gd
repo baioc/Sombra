@@ -10,16 +10,20 @@ var health = max_health
 var velocity = ZERO
 
 
+func _ready():
+	_physics_process(true);
+	pass
+
 func _physics_process(delta):
 	if health > 0:
-		control()
+		control(delta)
 	else:
 		die()
 
 	move_and_slide(velocity)
 
 
-func control():
+func control(delta):
 	pass
 
 func die():

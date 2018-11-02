@@ -4,7 +4,9 @@ extends "res://character/Character.gd"
 export (float) var detect_range = 150.0
 export (float) var attack_range = 70.0
 
-var state = 'IDLE'
+enum STATES { IDLE, CHASE, FIGHT }
+
+var state = IDLE
 var target = null
 var dir = ZERO
 
@@ -21,13 +23,13 @@ func _ready():
 	$AttackRange/Area.shape = fight_zone
 
 
-func control():
+func control(delta):
 	match state:
-		'CHASE':
+		CHASE:
 			chase(target)
-		'FIGHT':
+		FIGHT:
 			fight(target)
-		'IDLE':
+		IDLE:
 			roam()
 
 func die():
@@ -46,16 +48,16 @@ func fight(target):
 	pass
 
 
-# @todo collision masks
+# @todo collision masks (body != self, enemy, etc)
 func _on_DetectRange_body_entered(body):
 	if not target and body != self:
 		target = body
-		state = 'CHASE'
+		state = CHASE
 
 func _on_DetectRange_body_exited(body):
 	if body == target:
 		target = null
-		state = 'IDLE'
+		state = IDLE
 		dir = ZERO
 		$RoamTimer.start()
 
@@ -63,15 +65,15 @@ func _on_AttackRange_body_entered(body):
 	if not target and body != self:
 		target = body
 	if body == target:
-		state = 'FIGHT'
+		state = FIGHT
 
 func _on_AttackRange_body_exited(body):
 	if body == target:
-		state = 'CHASE'
+		state = CHASE
 
 func _on_RoamTimer_timeout():
 	dir.x = rand_range(-1, 1)
 	dir.y = rand_range(-1, 1)
 
-	if state != 'IDLE':
+	if state != IDLE:
 		$RoamTimer.stop()
