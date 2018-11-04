@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player.png-801b9f8f3c5c3ecc90ce94146372895d.stex"
+path="res://.import/circle_fill.png-105350f1eb9e95bb7a7feee0177c700e.stex"
 
 [deps]
 
-source_file="res://character/player/player.png"
-dest_files=[ "res://.import/player.png-801b9f8f3c5c3ecc90ce94146372895d.stex" ]
+source_file="res://GUI/art/circle_fill.png"
+dest_files=[ "res://.import/circle_fill.png-105350f1eb9e95bb7a7feee0177c700e.stex" ]
 
 [params]
 

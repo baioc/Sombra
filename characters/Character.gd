@@ -1,18 +1,17 @@
 extends KinematicBody2D
 
 
-export (int) var max_health = 100
 export (int) var speed = 100
-
 const ZERO = Vector2(0, 0)
-
-var health = max_health
 var velocity = ZERO
+
+export (int) var max_health = 100
+signal health_changed
+var health = max_health
 
 
 func _ready():
-	_physics_process(true);
-	pass
+	emit_signal('health_changed', health)
 
 func _physics_process(delta):
 	if health > 0:
@@ -24,7 +23,12 @@ func _physics_process(delta):
 
 
 func control(delta):
+	# update velocity
 	pass
 
 func die():
 	pass
+
+func _on_Character_hit(damage):
+	health -= damage
+	emit_signal('health_changed', health)

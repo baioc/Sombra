@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://map/World.gd" type="Script" id=1]
+[ext_resource path="res://map/TestMap.tscn" type="PackedScene" id=2]
+[ext_resource path="res://shaders/Negate.tscn" type="PackedScene" id=3]
+
+[node name="World" type="Node" index="0"]
+
+script = ExtResource( 1 )
+map = ExtResource( 2 )
+fx = ExtResource( 3 )
+
+

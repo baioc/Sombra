@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://characters/Character.gd" type="Script" id=1]
+[ext_resource path="res://characters/shadow.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 16, 16 )
+
+[node name="Character" type="KinematicBody2D" index="0"]
+
+light_mask = 2
+input_pickable = false
+collision_layer = 0
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Visibility" ]
+__meta__ = {
+"_edit_group_": true
+}
+speed = 100
+max_health = 100
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+modulate = Color( 0, 0, 0, 1 )
+light_mask = 2
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Collider" type="CollisionShape2D" parent="." index="1"]
+
+visible = false
+shape = SubResource( 1 )
+
+

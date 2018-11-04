@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HealthBorder.png-20303b6a8fed6483cc755160a6e0e937.stex"
+path="res://.import/bar_border.png-ab012b9deab52bf42c9fbac3b0fe1afb.stex"
 
 [deps]
 
-source_file="res://GUI/images/HealthBorder.png"
-dest_files=[ "res://.import/HealthBorder.png-20303b6a8fed6483cc755160a6e0e937.stex" ]
+source_file="res://GUI/art/bar_border.png"
+dest_files=[ "res://.import/bar_border.png-ab012b9deab52bf42c9fbac3b0fe1afb.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/energy_progress.png-028d8a75d0cc051f3cd1e546085b97e7.stex"
+path="res://.import/shadow.png-9b88bc6b24165e21f04edb7eaa0e0cce.stex"
 
 [deps]
 
-source_file="res://GUI/images/energy_progress.png"
-dest_files=[ "res://.import/energy_progress.png-028d8a75d0cc051f3cd1e546085b97e7.stex" ]
+source_file="res://characters/shadow.png"
+dest_files=[ "res://.import/shadow.png-9b88bc6b24165e21f04edb7eaa0e0cce.stex" ]
 
 [params]
 

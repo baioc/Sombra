@@ -1,9 +1,7 @@
-extends "res://character/Character.gd"
+extends "res://characters/Character.gd"
 
-# Sinais para os outros node
-signal healthChanged
 
-# Status do personagem
+# Status do personagem (@todo)
 export (int) var max_energy = 100
 var energy = max_energy
 
@@ -11,7 +9,7 @@ var energy = max_energy
 export (int) var dash_speed = 400
 var direction = Vector2(1, 0)
 
-# Variavel que vai selecionar a animaçao
+# Variavel que vai selecionar a animaçao (@todo)
 enum ANIMATION_STATES { IDLE, LEFT, RIGHT, UP, DOWN, ATACK }
 var animation = IDLE
 
@@ -26,6 +24,10 @@ var dashTimer = 0
 var attackTimer = 0
 
 
+# Instanciacao do objeto
+func _ready():
+	$Camera.current = true
+
 # Loop
 func control(delta):
 	player_timing(delta)
@@ -33,8 +35,13 @@ func control(delta):
 	movement()
 
 func die():
-	# @todo
-	pass
+	# @todo game over
+	print("* GAME OVER *")
+	queue_free()
+
+func _on_Character_hit(damage):
+	._on_Character_hit(damage)	# chama o metodo herdado
+	print(health," HP, pora")	# @debug hp
 
 # Input Events
 func get_input(delta):
@@ -58,30 +65,31 @@ func get_input(delta):
 		if velocity != ZERO:
 			direction = velocity # salva a direçao que o jogador estava se movendo
 
+		# Dash do personagem
+		if Input.is_action_just_pressed('dash'):
+			playerState = DASH
+			dashTimer = 0
 
 	# Atack do personagem
 	if Input.is_action_just_pressed('attack'):
 		playerState = ATTACK
 		animation = ATACK
 
-	# Dash do personagem
-	if Input.is_action_just_pressed('dash'):
-		playerState = DASH
-		dashTimer = 0
-
-	# Teste para a GUI de vida
+	# @debug Teste para a GUI de vida
 	if Input.is_action_just_pressed('test_hp'):
-		health -= 10
-		emit_signal("healthChanged", health)
+		_on_Character_hit(5)
 
 
+# @fixme seria melhor usar o node Timer, desse jeito o player para quando ataca
 func player_timing(delta):
 	# Timer das açoes do jogador e troca de states
 	if playerState == ATTACK:
+		$Sprite.set_modulate(Color8(255, 0, 255))	# @debug ataque
 		attackTimer += delta
 		if attackTimer >= max_attackDelay:
 			playerState = MOVE
 			attackTimer = 0
+			$Sprite.set_modulate(Color8(60, 60, 60))
 
 	# Tempo do dash
 	if playerState == DASH:

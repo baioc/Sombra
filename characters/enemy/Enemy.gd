@@ -1,10 +1,11 @@
-extends "res://character/Character.gd"
+extends "res://characters/Character.gd"
 
 
-export (float) var detect_range = 150.0
+enum STATE { IDLE, CHASE, FIGHT }
+
+export (float) var detect_range = 300.0
 export (float) var attack_range = 70.0
-
-enum STATES { IDLE, CHASE, FIGHT }
+export (float) var roam_delay = 2.0
 
 var state = IDLE
 var target = null
@@ -13,6 +14,8 @@ var dir = ZERO
 
 func _ready():
 	randomize()
+	$RoamTimer.wait_time = roam_delay
+	$RoamTimer.start()
 
 	var detection_zone = CircleShape2D.new()
 	detection_zone.radius = detect_range
@@ -48,11 +51,11 @@ func fight(target):
 	pass
 
 
-# @todo collision masks (body != self, enemy, etc)
 func _on_DetectRange_body_entered(body):
-	if not target and body != self:
+	if target == null:
 		target = body
 		state = CHASE
+		$Sprite.set_modulate(Color8(255, 128, 0))	# @debug enemy state
 
 func _on_DetectRange_body_exited(body):
 	if body == target:
@@ -60,16 +63,19 @@ func _on_DetectRange_body_exited(body):
 		state = IDLE
 		dir = ZERO
 		$RoamTimer.start()
+		$Sprite.set_modulate(Color8(0, 0, 0))
 
 func _on_AttackRange_body_entered(body):
-	if not target and body != self:
+	if target == null:
 		target = body
 	if body == target:
 		state = FIGHT
+		$Sprite.set_modulate(Color8(255, 0, 0))
 
 func _on_AttackRange_body_exited(body):
 	if body == target:
 		state = CHASE
+		$Sprite.set_modulate(Color8(255, 128, 0))
 
 func _on_RoamTimer_timeout():
 	dir.x = rand_range(-1, 1)

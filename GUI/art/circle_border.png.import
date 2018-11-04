@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/energy_bar.png-383a5fa2aeb3ec63518d8c03dd3b200f.stex"
+path="res://.import/circle_border.png-102f797ed6274acb2ac76da7bf5abd7f.stex"
 
 [deps]
 
-source_file="res://GUI/images/energy_bar.png"
-dest_files=[ "res://.import/energy_bar.png-383a5fa2aeb3ec63518d8c03dd3b200f.stex" ]
+source_file="res://GUI/art/circle_border.png"
+dest_files=[ "res://.import/circle_border.png-102f797ed6274acb2ac76da7bf5abd7f.stex" ]
 
 [params]
 

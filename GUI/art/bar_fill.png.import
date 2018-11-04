@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/healthCircle.png-5b2838fb4d4e7ad7652b0009de162f03.stex"
+path="res://.import/bar_fill.png-3f45564ad4eefaee1412203b9ee6f986.stex"
 
 [deps]
 
-source_file="res://GUI/images/healthCircle.png"
-dest_files=[ "res://.import/healthCircle.png-5b2838fb4d4e7ad7652b0009de162f03.stex" ]
+source_file="res://GUI/art/bar_fill.png"
+dest_files=[ "res://.import/bar_fill.png-3f45564ad4eefaee1412203b9ee6f986.stex" ]
 
 [params]
 
