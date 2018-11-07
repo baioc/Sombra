@@ -52,6 +52,7 @@ test_shrink=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_nam
 2d_physics/layer_2="player"
 2d_render/layer_3="special_fx"
 2d_physics/layer_3="enemy"
+2d_physics/layer_4="attack"
 2d_render/layer_5="ui"
 2d_render/layer_11="overlay_fx"
 

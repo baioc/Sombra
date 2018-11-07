@@ -1,106 +1,91 @@
 extends "res://characters/Character.gd"
 
 
-# Status do personagem (@todo)
-export (int) var max_energy = 100
-var energy = max_energy
-
 # Movimento do personagem
 export (int) var dash_speed = 400
 var direction = Vector2(1, 0)
 
-# Variavel que vai selecionar a animaçao (@todo)
-enum ANIMATION_STATES { IDLE, LEFT, RIGHT, UP, DOWN, ATACK }
-var animation = IDLE
+# Energia
+export (int) var max_energy = 100
+export (int) var dash_cost = 25
+export (int) var energy_regen = 5
+signal energy_changed	# @todo remover GUI da Scene do Player talvez conserte o bug do crescimento
+var energy
 
-# Estado do jogador (movendo,atacando,etc)
-enum STATES { MOVE, ATTACK, DASH }
-var playerState = MOVE
-
-# Delay
-export (float) var max_dashDelay = 0.5
-export (float) var max_attackDelay = 0.2
-var dashTimer = 0
-var attackTimer = 0
+# Timing
+export (float) var dash_delay = 0.5
+export (float) var energy_regen_delay = 0.75
 
 
-# Instanciacao do objeto
+# Inicializacao
 func _ready():
+	energy = max_energy
 	$Camera.current = true
+	$DashTimer.wait_time = dash_delay
+	$RegenTimer.wait_time = energy_regen_delay
+
+
+func lose_health(damage):
+	.lose_health(damage)			# chama o metodo herdado
+	print("Player HP: ", health)	# @debug hp
+	# @fixme multiplos ataques simultaneos causam dano varias vezes
 
 # Loop
 func control(delta):
-	player_timing(delta)
-	get_input(delta)
-	movement()
+	get_input()
+	update_velocity()
 
 func die():
-	# @todo game over
+	# @todo
 	print("* GAME OVER *")
 	queue_free()
 
-func _on_Character_hit(damage):
-	._on_Character_hit(damage)	# chama o metodo herdado
-	print(health," HP, pora")	# @debug hp
 
-# Input Events
-func get_input(delta):
-	# Movimento do personagem
-	velocity = ZERO
+func get_input():
+	# @debug da barra de vida
+	if Input.is_action_just_pressed('test_hp'):
+		lose_health(max_health * knockback_percent / 100)
 
-	if playerState == MOVE:
+	# Atack
+	if Input.is_action_just_pressed('attack'):
+		attack(direction)
+
+	# Movimento
+	if $DashTimer.is_stopped():
+		velocity = ZERO
+
 		if Input.is_action_pressed("ui_right"):
-			velocity.x += 1		# direçao que o jogador esta se movendo
-			animation = RIGHT	# possivelmente usar nas animaçoes
+			velocity.x += 1
 		if Input.is_action_pressed("ui_left"):
 			velocity.x += -1
-			animation = LEFT
 		if Input.is_action_pressed("ui_up"):
 			velocity.y += -1
-			animation = UP
 		if Input.is_action_pressed("ui_down"):
 			velocity.y += 1
-			animation = DOWN
 
 		if velocity != ZERO:
-			direction = velocity # salva a direçao que o jogador estava se movendo
+			direction = velocity	# salva o ultimo movimento do player
 
-		# Dash do personagem
 		if Input.is_action_just_pressed('dash'):
-			playerState = DASH
-			dashTimer = 0
-
-	# Atack do personagem
-	if Input.is_action_just_pressed('attack'):
-		playerState = ATTACK
-		animation = ATACK
-
-	# @debug Teste para a GUI de vida
-	if Input.is_action_just_pressed('test_hp'):
-		_on_Character_hit(5)
+			dash()
 
 
-# @fixme seria melhor usar o node Timer, desse jeito o player para quando ataca
-func player_timing(delta):
-	# Timer das açoes do jogador e troca de states
-	if playerState == ATTACK:
-		$Sprite.set_modulate(Color8(255, 0, 255))	# @debug ataque
-		attackTimer += delta
-		if attackTimer >= max_attackDelay:
-			playerState = MOVE
-			attackTimer = 0
-			$Sprite.set_modulate(Color8(60, 60, 60))
+func dash():
+	if energy >= dash_cost:
+		update_energy(-dash_cost)
+		$DashTimer.start()
 
-	# Tempo do dash
-	if playerState == DASH:
-		dashTimer += delta
-		if dashTimer >= max_dashDelay:
-			playerState = MOVE
-			dashTimer = 0
+func update_energy(delta):
+	energy += delta
+	emit_signal('energy_changed', energy * 100 / max_energy)
+	print("Energia: ", energy)	# @debug sp
 
-
-func movement():
-	if playerState == MOVE:
-		velocity = velocity.normalized() * speed
-	elif playerState == DASH:
+func update_velocity():
+	velocity = velocity.normalized() * base_speed
+	if not $DashTimer.is_stopped():
 		velocity = direction.normalized() * dash_speed
+
+
+func _on_RegenTimer_timeout():
+	if energy < max_energy:
+		update_energy( min(energy_regen, max_energy-energy) )

@@ -68,12 +68,19 @@ _sections_unfolded = [ "Color", "Gravity" ]
 
 position = Vector2( 640, 360 )
 collision_layer = 2
-collision_mask = 5
 script = ExtResource( 2 )
-max_energy = 100
+_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+base_speed = 120
+knockback_percent = 5
+hit_duration = 1.4
+damage = 34
+attack_cooldown = 0.15
 dash_speed = 400
-max_dashDelay = 0.5
-max_attackDelay = 0.2
+max_energy = 100
+dash_cost = 25
+energy_regen = 5
+dash_delay = 0.5
+energy_regen_delay = 0.75
 
 [node name="Sprite" parent="." index="0"]
 
@@ -83,7 +90,11 @@ modulate = Color( 0.235294, 0.235294, 0.235294, 1 )
 
 shape = SubResource( 1 )
 
-[node name="Trail" type="Particles2D" parent="." index="2"]
+[node name="Weapon" parent="." index="2"]
+
+editor/display_folded = true
+
+[node name="Trail" type="Particles2D" parent="." index="5"]
 
 modulate = Color( 0.376471, 0.376471, 0.376471, 1 )
 show_behind_parent = true
@@ -108,7 +119,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Visibility" ]
 
-[node name="Camera" type="Camera2D" parent="." index="3"]
+[node name="Camera" type="Camera2D" parent="." index="6"]
 
 light_mask = 16
 anchor_mode = 1
@@ -133,7 +144,7 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = true
-_sections_unfolded = [ "Material", "Visibility" ]
+_sections_unfolded = [ "Visibility" ]
 __meta__ = {
 "_edit_group_": true
 }
@@ -248,6 +259,24 @@ nine_patch_stretch = false
 script = ExtResource( 6 )
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
+[node name="DashTimer" type="Timer" parent="." index="7"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="RegenTimer" type="Timer" parent="." index="8"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[connection signal="energy_changed" from="." to="Camera/GUI/Status/EnergyBar" method="_on_value_changed"]
+
 [connection signal="health_changed" from="." to="Camera/GUI/Status/HealthCircle" method="_on_value_changed"]
+
+[connection signal="timeout" from="RegenTimer" to="." method="_on_RegenTimer_timeout"]
 
 
