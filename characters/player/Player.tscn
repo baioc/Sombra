@@ -1,13 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=2]
 [ext_resource path="res://characters/shadow.png" type="Texture" id=3]
-[ext_resource path="res://GUI/art/circle_border.png" type="Texture" id=4]
-[ext_resource path="res://GUI/art/circle_fill.png" type="Texture" id=5]
-[ext_resource path="res://GUI/ValueIndicator.gd" type="Script" id=6]
-[ext_resource path="res://GUI/art/bar_border.png" type="Texture" id=7]
-[ext_resource path="res://GUI/art/bar_fill.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -66,21 +61,21 @@ _sections_unfolded = [ "Color", "Gravity" ]
 
 [node name="Player" index="0" instance=ExtResource( 1 )]
 
-position = Vector2( 640, 360 )
 collision_layer = 2
+collision_mask = 5
 script = ExtResource( 2 )
-_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+_sections_unfolded = [ "Collision", "Visibility" ]
 base_speed = 120
 knockback_percent = 5
 hit_duration = 1.4
-damage = 34
-attack_cooldown = 0.15
+damage = 20
+attack_cooldown = 0.2
 dash_speed = 400
 max_energy = 100
-dash_cost = 25
+dash_cost = 20
 energy_regen = 5
-dash_delay = 0.5
-energy_regen_delay = 0.75
+dash_duration = 0.666
+energy_regen_delay = 0.5
 
 [node name="Sprite" parent="." index="0"]
 
@@ -98,7 +93,7 @@ editor/display_folded = true
 
 modulate = Color( 0.376471, 0.376471, 0.376471, 1 )
 show_behind_parent = true
-light_mask = 4
+light_mask = 2
 emitting = true
 amount = 6
 lifetime = 1.0
@@ -118,6 +113,9 @@ normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Camera" type="Camera2D" parent="." index="6"]
 
@@ -131,133 +129,20 @@ limit_top = -10000000
 limit_right = 10000000
 limit_bottom = 10000000
 limit_smoothed = false
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
 smoothing_enabled = false
 smoothing_speed = 5.0
 offset_v = 0.0
 offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
+drag_margin_left = 0.4
+drag_margin_top = 0.3
+drag_margin_right = 0.4
+drag_margin_bottom = 0.3
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = true
 _sections_unfolded = [ "Visibility" ]
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="GUI" type="MarginContainer" parent="Camera" index="0"]
-
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -360.0
-margin_right = -532.0
-margin_bottom = -320.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
-_sections_unfolded = [ "Visibility", "custom_constants" ]
-
-[node name="Status" type="HBoxContainer" parent="Camera/GUI" index="0"]
-
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 152.0
-margin_bottom = 84.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-alignment = 0
-_sections_unfolded = [ "Anchor", "Visibility" ]
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="HealthCircle" type="TextureProgress" parent="Camera/GUI/Status" index="0"]
-
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 64.0
-margin_bottom = 64.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 50.0
-exp_edit = false
-rounded = false
-texture_under = null
-texture_over = ExtResource( 4 )
-texture_progress = ExtResource( 5 )
-fill_mode = 3
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-script = ExtResource( 6 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="EnergyBar" type="TextureProgress" parent="Camera/GUI/Status" index="1"]
-
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
-margin_bottom = 64.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = true
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 50.0
-exp_edit = false
-rounded = false
-texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-script = ExtResource( 6 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="DashTimer" type="Timer" parent="." index="7"]
 
@@ -272,10 +157,6 @@ process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = true
-
-[connection signal="energy_changed" from="." to="Camera/GUI/Status/EnergyBar" method="_on_value_changed"]
-
-[connection signal="health_changed" from="." to="Camera/GUI/Status/HealthCircle" method="_on_value_changed"]
 
 [connection signal="timeout" from="RegenTimer" to="." method="_on_RegenTimer_timeout"]
 

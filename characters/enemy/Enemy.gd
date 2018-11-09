@@ -1,6 +1,9 @@
 extends "res://characters/Character.gd"
 
 
+# Sinais
+signal enemy_death
+
 # Estados
 enum STATE { IDLE, CHASE, FIGHT }
 var state
@@ -8,10 +11,12 @@ var dir
 var target
 
 # Variaveis
-export (float) var chase_speed = 100
-export (float) var detect_range = 300.0
-export (float) var attack_range = 80
+export (float) var chase_speed = 85
+export (float) var detect_range = 275
+export (float) var attack_range = 70
 export (float) var roam_delay = 2.5
+
+const slow_ratio = 4	# deixa o inimigo mais lento enquanto luta
 
 
 # Inicializacao
@@ -36,12 +41,6 @@ func _ready():
 	$AttackRange/Area.shape = fight_zone
 
 
-# @debug do hp do inimigo
-func lose_health(damage):
-	.lose_health(damage)
-	print(health, " HP do inimigo, pora")
-	# @todo jogar o inimigo para tras de vdd na funcao knockback()
-
 # Maquina de estados em loop
 func control(delta):
 	match state:
@@ -56,7 +55,7 @@ func control(delta):
 			roam()
 
 func die():
-	# @todo
+	emit_signal('enemy_death')
 	queue_free()
 
 
@@ -70,6 +69,7 @@ func chase(target):
 func fight(target):
 	dir = target.position - position
 	attack(dir)
+	velocity = dir.normalized() * chase_speed / slow_ratio
 
 
 # Deteccao de alvo
@@ -91,6 +91,8 @@ func _on_AttackRange_body_entered(body):
 		target = body
 	if body == target:
 		state = FIGHT
+		if $AttackTimer.is_stopped():
+			$AttackTimer.start()	# espera para atacar, nao seria preciso com animacao
 
 # Fora da range
 func _on_AttackRange_body_exited(body):

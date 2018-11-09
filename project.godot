@@ -11,8 +11,8 @@ config_version=3
 [application]
 
 config/name="Sombra"
-run/main_scene="res://map/World.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://map/Map.tscn"
+config/icon="res://characters/shadow.png"
 
 [display]
 
@@ -37,8 +37,6 @@ ui_accept=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name"
 dash=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 attack=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"unicode":0,"echo":false,"script":null)
- ]
-test_hp=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
  ]
 test_expand=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
  ]

@@ -16,15 +16,18 @@ _sections_unfolded = [ "Collision", "Transform", "Visibility" ]
 base_speed = 70
 knockback_percent = 12
 hit_duration = 0.2
-attack_cooldown = 2.5
-chase_speed = 85.0
-detect_range = 300.0
-attack_range = 80
+chase_speed = 85
+detect_range = 275
+attack_range = 70
 roam_delay = 2.5
 
 [node name="Sprite" parent="." index="0"]
 
 _sections_unfolded = [ "Animation", "Visibility" ]
+
+[node name="Weapon" parent="." index="2"]
+
+editor/display_folded = true
 
 [node name="DetectRange" type="Area2D" parent="." index="5"]
 
@@ -39,7 +42,8 @@ audio_bus_override = false
 audio_bus_name = "Master"
 _sections_unfolded = [ "Collision" ]
 __meta__ = {
-"_edit_group_": true
+"_edit_group_": true,
+"_edit_lock_": true
 }
 
 [node name="Area" type="CollisionShape2D" parent="DetectRange" index="0"]
@@ -57,7 +61,8 @@ audio_bus_override = false
 audio_bus_name = "Master"
 _sections_unfolded = [ "Collision" ]
 __meta__ = {
-"_edit_group_": true
+"_edit_group_": true,
+"_edit_lock_": true
 }
 
 [node name="Area" type="CollisionShape2D" parent="AttackRange" index="0"]
@@ -71,6 +76,7 @@ autostart = false
 
 [node name="HealthBar" type="TextureProgress" parent="." index="8"]
 
+visible = false
 light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
@@ -102,6 +108,9 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 script = ExtResource( 5 )
 _sections_unfolded = [ "Textures", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [connection signal="health_changed" from="." to="HealthBar" method="_on_value_changed"]
 

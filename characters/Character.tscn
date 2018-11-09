@@ -50,7 +50,8 @@ collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision" ]
 __meta__ = {
-"_edit_group_": true
+"_edit_group_": true,
+"_edit_lock_": true
 }
 base_speed = 100
 max_health = 100
@@ -66,15 +67,20 @@ modulate = Color( 0, 0, 0, 1 )
 light_mask = 2
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Collider" type="CollisionShape2D" parent="." index="1"]
 
 visible = false
 shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Weapon" type="Node2D" parent="." index="2"]
 
-rotation = -0.785398
 _sections_unfolded = [ "Transform" ]
 __meta__ = {
 "_edit_group_": true
@@ -82,7 +88,7 @@ __meta__ = {
 
 [node name="AttackContainer" type="Position2D" parent="Weapon" index="0"]
 
-position = Vector2( 23, 0 )
+position = Vector2( 26, 0 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="AttackTimer" type="Timer" parent="." index="3"]

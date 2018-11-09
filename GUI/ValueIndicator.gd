@@ -7,3 +7,4 @@ func _ready():
 
 func _on_value_changed(new):	# new : [0, 100] %
 	value = new
+	show()

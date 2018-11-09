@@ -20,7 +20,7 @@ render_priority = 0
 shader = SubResource( 1 )
 _sections_unfolded = [ "Resource", "shader" ]
 
-[node name="Negate" type="TextureRect"]
+[node name="Negate" type="TextureRect" index="0"]
 
 light_mask = 1024
 material = SubResource( 2 )
@@ -28,11 +28,6 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -360.0
-margin_right = -640.0
-margin_bottom = -360.0
-rect_min_size = Vector2( 1280, 720 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -42,6 +37,6 @@ size_flags_vertical = 3
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Material", "Visibility" ]
+_sections_unfolded = [ "Anchor", "Margin", "Material", "Rect", "Visibility" ]
 
 

@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://map/World.gd" type="Script" id=1]
+[ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://map/Spawn.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://shaders/Negate.tscn" type="PackedScene" id=5]
+
+[node name="Map" type="Node2D" index="0"]
+
+show_behind_parent = true
+script = ExtResource( 1 )
+_sections_unfolded = [ "Pause", "Visibility" ]
+
+[node name="Player" parent="." index="0" instance=ExtResource( 2 )]
+
+position = Vector2( 16, 16 )
+z_index = 1
+_sections_unfolded = [ "Collision", "Visibility", "Z Index" ]
+
+[node name="EnemySpawn" parent="." index="1" instance=ExtResource( 3 )]
+
+[node name="Screen" type="CanvasLayer" parent="." index="2"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="GUI" parent="Screen" index="0" instance=ExtResource( 4 )]
+
+[node name="Negate" parent="Screen" index="1" instance=ExtResource( 5 )]
+
+visible = false
+
+[connection signal="energy_changed" from="Player" to="Screen/GUI" method="_on_Player_energy_changed"]
+
+[connection signal="health_changed" from="Player" to="Screen/GUI" method="_on_Player_health_changed"]
+
+[connection signal="enemy_death" from="EnemySpawn" to="." method="expand"]
+
+

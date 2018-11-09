@@ -28,32 +28,41 @@ func _ready():
 # Game Loop
 func _physics_process(delta):
 	control(delta)
-	move_and_slide(velocity)
+	# move_and_slide(velocity)
+	position += velocity * delta	# @note update manual da posicao ignora colisoes
 
 
-func lose_health(damage):
+# Aplicacao de dano
+func take_hit(damage, attack_direction=null):
+	if $Animator.current_animation == 'hit':
+		return
+
 	health -= damage
 	emit_signal('health_changed', health * 100 / max_health)
 
 	if damage * 100 / max_health >= knockback_percent:
-		knockback()
+		knockback(attack_direction)
 
 	if health <= 0:
 		die()
 
-# pisca e desabilita collider
-func knockback():
+
+# joga na direcao do parametro, pisca e desabilita colisao por um tempo
+func knockback(direction=null):
 	$Animator.play('hit', -1, 1/hit_duration)
+	if direction != null:
+		position += direction.normalized() * $Sprite.texture.get_width()
 
 func attack(direction):
 	if $AttackTimer.is_stopped():
 		var new_attack = attack.instance()
 		$Weapon.rotation = direction.angle()
 		$Weapon/AttackContainer.add_child(new_attack)
-		new_attack.execute(damage)
+		new_attack.execute(damage, collision_mask)
 		$AttackTimer.start()
 
-func control(delta):	# update velocity
+func control(delta):
+	# update velocity
 	pass
 
 func die():
