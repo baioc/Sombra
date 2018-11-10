@@ -4,17 +4,16 @@ extends "res://characters/Character.gd"
 # Sinais
 signal enemy_death
 
-# Constantes
-const slow_ratio = 4	# deixa o inimigo mais lento enquanto "luta"
-
 # Estados
 enum STATE { IDLE, CHASE, FIGHT }
 
 # Configuraveis
-export (float) var chase_speed = 85
 export (float) var detect_range = 275
 export (float) var attack_range = 70
+export (float) var chase_speed = 85
 export (float) var roam_delay = 2.5
+export (float) var fight_slowdown_ratio = 0.25	# deixa o inimigo mais lento enquanto "luta"
+export (float) var first_attack_ratio = 0.84	# aumenta o delay do primeiro ataque
 
 # Variaveis
 var state
@@ -64,13 +63,13 @@ func roam():
 	velocity = dir.normalized() * base_speed
 
 func chase(target):
-	dir = target.position - position	# direcao do alvo
+	dir = target.position - self.position	# direcao do alvo
 	velocity = dir.normalized() * chase_speed
 
 func fight(target):
-	dir = target.position - position
+	dir = target.position - self.position
+	velocity = dir.normalized() * chase_speed * fight_slowdown_ratio
 	attack(dir)
-	velocity = dir.normalized() * chase_speed / slow_ratio
 
 
 # Deteccao de alvo
@@ -97,7 +96,8 @@ func _on_AttackRange_body_entered(body):
 		if not $GrowlSound.playing:
 			$GrowlSound.play()
 		if $AttackTimer.is_stopped():
-			$AttackTimer.start()	# espera para atacar, nao seria preciso com animacao
+			$AttackTimer.wait_time = attack_cooldown * first_attack_ratio
+			$AttackTimer.start()	# espera um pouco para atacar
 
 # Fora da range
 func _on_AttackRange_body_exited(body):
@@ -111,3 +111,6 @@ func _on_RoamTimer_timeout():
 		dir.y = rand_range(-1, 1)
 	else:
 		$RoamTimer.stop()
+
+func _on_AttackTimer_timeout():
+	$AttackTimer.wait_time = attack_cooldown

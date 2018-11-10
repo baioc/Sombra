@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://map/World.gd" type="Script" id=1]
 [ext_resource path="res://map/Spawn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://sound/expand.wav" type="AudioStream" id=4]
+[ext_resource path="res://sound/sound_fx/expand.wav" type="AudioStream" id=4]
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://shaders/Negate.tscn" type="PackedScene" id=6]
+[ext_resource path="res://sound/tracks/Organic_to_Synthetic.wav" type="AudioStream" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -21,28 +22,29 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, -0.25 ),
+"transitions": PoolRealArray( 1, 0.25 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 84, 84 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 400, 400 ) ]
 }
 
-[node name="Map" type="Node2D" index="0"]
+[node name="Map" type="Node2D"]
 
 show_behind_parent = true
 position = Vector2( -1, 0 )
 script = ExtResource( 1 )
-_sections_unfolded = [ "Pause", "Visibility" ]
+_sections_unfolded = [ "Pause" ]
 max_expansion = 10
-shrink_delay = 7
+shrink_delay = 8.0
 shrink_ratio = 0.1
-max_hp_regen = 10
+level_points = 1000
+enemy_max_points = 100
+max_hp_regen = 20.0
 
 [node name="Enemies" parent="." index="0" instance=ExtResource( 2 )]
 
 [node name="Player" parent="." index="1" instance=ExtResource( 3 )]
 
-position = Vector2( 16, 16 )
-_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+position = Vector2( 480, 320 )
 
 [node name="ExpandSound" type="AudioStreamPlayer2D" parent="Player" index="11"]
 
@@ -51,10 +53,10 @@ stream = ExtResource( 4 )
 volume_db = -17.0
 pitch_scale = 1.0
 autoplay = false
-max_distance = 2000.0
-attenuation = -2.0
+max_distance = 1000.0
+attenuation = 2.0
 bus = "Master"
-area_mask = 3
+area_mask = 2
 _sections_unfolded = [ "Pause", "Transform" ]
 
 [node name="Animator" type="AnimationPlayer" parent="." index="2"]
@@ -90,6 +92,15 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 visible = false
 
+[node name="BackTrack" type="AudioStreamPlayer" parent="." index="5"]
+
+stream = ExtResource( 7 )
+volume_db = -28.0
+pitch_scale = 1.0
+autoplay = true
+mix_target = 1
+bus = "Master"
+
 [connection signal="points_changed" from="." to="Screen/GUI" method="_on_points_changed"]
 
 [connection signal="enemy_death" from="Enemies" to="." method="_on_enemy_death"]
@@ -98,8 +109,12 @@ visible = false
 
 [connection signal="health_changed" from="Player" to="Screen/GUI" method="_on_Player_health_changed"]
 
+[connection signal="player_death" from="Player" to="." method="_on_player_death"]
+
 [connection signal="animation_finished" from="Animator" to="." method="_on_animation_finished"]
 
 [connection signal="timeout" from="Shrink" to="." method="_on_ShrinkTimer_timeout"]
+
+[connection signal="finished" from="BackTrack" to="." method="_on_BackTrack_finished"]
 
 

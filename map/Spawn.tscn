@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://map/Spawn.gd" type="Script" id=1]
 [ext_resource path="res://characters/enemy/Enemy.tscn" type="PackedScene" id=2]
-[ext_resource path="res://sound/kill.wav" type="AudioStream" id=3]
-[ext_resource path="res://sound/spawn.wav" type="AudioStream" id=4]
 
 [node name="Spawn" type="Position2D" index="0"]
 
@@ -11,10 +9,10 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-dispersion = 1.47
+dispersion = 1.33
 initial_burst = 25
 burst_size = 10
-burst_delay = 16
+burst_delay = 15.0
 enemy = ExtResource( 2 )
 
 [node name="Timer" type="Timer" parent="." index="0"]
@@ -23,24 +21,6 @@ process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
-
-[node name="DeathSound" type="AudioStreamPlayer" parent="." index="1"]
-
-stream = ExtResource( 3 )
-volume_db = -30.0
-pitch_scale = 1.0
-autoplay = false
-mix_target = 0
-bus = "Master"
-
-[node name="SpawnSound" type="AudioStreamPlayer" parent="." index="2"]
-
-stream = ExtResource( 4 )
-volume_db = -28.0
-pitch_scale = 1.61
-autoplay = false
-mix_target = 1
-bus = "Master"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timeout"]
 

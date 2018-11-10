@@ -1,9 +1,13 @@
 extends "res://characters/Character.gd"
 
 
+# Sinais
+signal player_death
+
 # Movimento do personagem
 export (int) var dash_speed = 400
 var direction = Vector2(1, 0)
+var facing = 1
 
 # Energia
 export (int) var max_energy = 100
@@ -13,8 +17,8 @@ signal energy_changed
 var energy
 
 # Timing
-export (float) var dash_duration = 0.666
-export (float) var energy_regen_delay = 0.7
+export (float) var dash_duration = 0.5
+export (float) var energy_regen_delay = 0.666
 
 
 # Inicializacao
@@ -24,16 +28,14 @@ func _ready():
 	$DashTimer.wait_time = dash_duration
 	$RegenTimer.wait_time = energy_regen_delay
 
-
 # Loop
 func control(delta):
 	get_input()
 	update_velocity()
 
 func die():
-	print("* GAME OVER *")
+	emit_signal('player_death')
 	queue_free()
-
 
 # @note seria melhor usar o metodo pronto de input
 func get_input():
@@ -73,7 +75,7 @@ func dash():
 		$ActionSound.play()
 
 func update_energy(delta):
-	energy += delta
+	energy += min(delta, max_energy - energy)
 	emit_signal('energy_changed', energy * 100 / max_energy)
 
 # Aplica movimentacao
@@ -82,7 +84,8 @@ func update_velocity():
 	if not $DashTimer.is_stopped():
 		velocity = direction.normalized() * dash_speed
 
+
 # Regeneracao de energia
 func _on_RegenTimer_timeout():
 	if energy < max_energy:
-		update_energy( min(energy_regen, max_energy-energy) )
+		update_energy(energy_regen)

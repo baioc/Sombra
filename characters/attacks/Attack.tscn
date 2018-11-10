@@ -3,10 +3,10 @@
 [ext_resource path="res://characters/attacks/Attack.gd" type="Script" id=1]
 [ext_resource path="res://characters/attacks/slash.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-extents = Vector2( 15, 28 )
+extents = Vector2( 9, 14 )
 
 [sub_resource type="Animation" id=2]
 
@@ -30,7 +30,6 @@ tracks/0/keys = {
 [node name="Attack" type="Area2D" index="0"]
 
 light_mask = 4
-position = Vector2( 10, 0 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -41,22 +40,24 @@ collision_mask = 15
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+_sections_unfolded = [ "Collision", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 damage = 0
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 modulate = Color( 0.0898438, 0.0898438, 0.0898438, 1 )
 light_mask = 4
-rotation = 1.68142
-scale = Vector2( 2, 2 )
+position = Vector2( 0, 1 )
+rotation = 1.74882
 texture = ExtResource( 2 )
-offset = Vector2( 1, 1 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Collider" type="CollisionShape2D" parent="." index="1"]
 
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }

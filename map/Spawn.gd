@@ -22,13 +22,7 @@ func _ready():
 	burst(initial_burst)
 	# os demais sao gerados a cada intervalo de timer
 	$Timer.wait_time = burst_delay
-	start()
-
-func start():
 	$Timer.start()
-
-func stop():
-	$Timer.stop()
 
 func burst(n):
 	for i in range(n):
@@ -47,7 +41,7 @@ func spawn():
 	e.damage *= max(1, bonus*0.95)
 	e.base_speed /= max(1, bonus*0.85)
 	e.chase_speed /= max(1, bonus*0.85)
-	e.attack_cooldown *= max(1, bonus*0.85)
+	e.attack_cooldown *= max(1, bonus*0.666)
 	e.roam_delay *= max(1, bonus*0.3)
 	# esses dois ultimos ficaram levemente estranhos para valores altos de 'bonus'
 	e.get_node('DetectRange').scale /= max(1, bonus*0.5)
@@ -65,9 +59,6 @@ func spawn():
 	e.global_position.x = center.x + w*rand_range(-1, 1)*dispersion
 	e.global_position.y = center.y + h*rand_range(-1, 1)*dispersion
 
-	# som
-	$SpawnSound.play()
-
 
 # Gerador temporizado
 func _on_timeout():
@@ -78,4 +69,3 @@ func _on_timeout():
 func _on_spawn_death(enemy):
 	var size_ratio = enemy.scale.y / max_expansion
 	emit_signal('enemy_death', size_ratio)
-	$DeathSound.play()

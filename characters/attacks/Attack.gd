@@ -8,11 +8,11 @@ func execute(damage=null, mask=null):
 	if damage:
 		self.damage = damage
 	if mask:	# define o que pode ser atingido
-		collision_mask = mask
+		set_collision_mask(mask)
 
 func _on_Attack_body_entered(body):
-	if body.has_method('take_hit') and not body.is_a_parent_of(self):
-		body.take_hit(damage, body.global_position - get_parent().global_position)
+	if body.has_method('update_health') and not body.is_a_parent_of(self):
+		body.update_health(-damage, body.get_global_position() - get_parent().get_global_position())
 
 func _on_Animator_animation_finished(anim_name):
 	if anim_name == 'attack':

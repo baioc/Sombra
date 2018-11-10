@@ -7,16 +7,15 @@ signal points_changed
 export (float) var max_expansion = 10
 export (float) var shrink_delay = 7
 export (float) var shrink_ratio = 0.1
+export (int) var level_points = 1000
+export (int) var enemy_max_points = 100
 export (float) var max_hp_regen = 10
-
-# Constantes
-const PT_LEVEL = 420
-const PT_ENEMY = 50
 
 # Variaveis
 var expansion
 var base_damage
 var base_attack_cooldown
+var base_knockback_percent
 var points
 
 
@@ -26,21 +25,20 @@ func _ready():
 	emit_signal('points_changed', points)
 	base_damage = $Player.damage
 	base_attack_cooldown = $Player.attack_cooldown
+	base_knockback_percent = $Player.knockback_percent
 	$Shrink.wait_time = shrink_delay
 	reset()
 
 
 # Reset 100%
 func reset():
-	# cura o player
-	$Player.health = $Player.max_health
-	$Screen/GUI._on_Player_health_changed(100)
-	# recupera energia, etc
-	$Player.energy = $Player.max_energy
-	$Screen/GUI._on_Player_energy_changed(100)
-	# normaliza o tamanho
+	# normaliza a escala de tudo
 	expansion = 1
 	expand(0)
+	# cura o player
+	$Player.update_health($Player.max_health - $Player.health)
+	# recupera energia, etc
+	$Player.update_energy($Player.max_energy- $Player.energy)
 
 # EXPANSAO
 func expand(delta):
@@ -49,8 +47,9 @@ func expand(delta):
 
 	$Player.scale.x = expansion
 	$Player.scale.y = expansion
-	$Player.attack_cooldown = base_attack_cooldown * expansion * 2
+	$Player.attack_cooldown = base_attack_cooldown * expansion
 	$Player.damage = base_damage * multiplier
+	$Player.knockback_percent = base_knockback_percent * multiplier
 
 	if (expansion >= max_expansion):
 		invert()
@@ -59,7 +58,7 @@ func expand(delta):
 
 # Transicao
 func invert():
-	points += PT_LEVEL
+	points += level_points
 	emit_signal('points_changed', points)
 	$Animator.play('invert')
 	$Player/ExpandSound.play()
@@ -81,7 +80,7 @@ func _on_animation_finished(anim_name):
 
 # Reducao temporizada do tamanho
 func _on_ShrinkTimer_timeout():
-	if expansion >= 1:
+	if expansion > 1:
 		expand(-shrink_ratio)
 	$Shrink.start()
 
@@ -89,7 +88,17 @@ func _on_ShrinkTimer_timeout():
 # Ativada na morte de algum inimigo
 func _on_enemy_death(ratio):
 	expand(ratio)
-	$Player.health += max_hp_regen * ratio
-	$Screen/GUI._on_Player_health_changed($Player.health * 100 / $Player.max_health)
-	points += int(PT_ENEMY * ratio)
+	$Player.update_health(max_hp_regen * ratio)
+	points += int(enemy_max_points * ratio)
 	emit_signal('points_changed', points)
+
+# Game Over
+func _on_player_death():
+	# Muda a pontuacao recorde
+	if points > Global.high_score:
+		Global.high_score = points
+	# Carrega o menu
+	get_tree().change_scene('res://GUI/Menu.tscn')
+
+func _on_BackTrack_finished():
+	$BackTrack.play()

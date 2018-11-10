@@ -9,4 +9,4 @@ func _on_Player_energy_changed(sp):
 	$Status/EnergyBar._on_value_changed(sp)
 
 func _on_points_changed(pt):
-	$Points/Label.text = str(pt)
+	$Points/Label.set_text(str(pt))
