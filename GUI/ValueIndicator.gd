@@ -1,5 +1,6 @@
 extends TextureProgress
 
+# Inicializa em 100%
 func _ready():
 	min_value = 0
 	max_value = 100

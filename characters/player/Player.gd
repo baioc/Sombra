@@ -7,14 +7,14 @@ var direction = Vector2(1, 0)
 
 # Energia
 export (int) var max_energy = 100
-export (int) var dash_cost = 20
+export (int) var dash_cost = 25
 export (int) var energy_regen = 5
 signal energy_changed
 var energy
 
 # Timing
 export (float) var dash_duration = 0.666
-export (float) var energy_regen_delay = 0.5
+export (float) var energy_regen_delay = 0.7
 
 
 # Inicializacao
@@ -35,6 +35,7 @@ func die():
 	queue_free()
 
 
+# @note seria melhor usar o metodo pronto de input
 func get_input():
 	# Ataque
 	if Input.is_action_just_pressed('attack'):
@@ -69,6 +70,7 @@ func dash():
 	if energy >= dash_cost:
 		update_energy(-dash_cost)
 		$DashTimer.start()
+		$ActionSound.play()
 
 func update_energy(delta):
 	energy += delta

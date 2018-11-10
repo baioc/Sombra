@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://characters/attacks/Attack.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/shadow.png" type="Texture" id=3]
+[ext_resource path="res://sound/action.wav" type="AudioStream" id=4]
+[ext_resource path="res://sound/connect.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -88,7 +90,7 @@ __meta__ = {
 
 [node name="AttackContainer" type="Position2D" parent="Weapon" index="0"]
 
-position = Vector2( 26, 0 )
+position = Vector2( 23, 0 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="AttackTimer" type="Timer" parent="." index="3"]
@@ -100,6 +102,7 @@ autostart = false
 
 [node name="Animator" type="AnimationPlayer" parent="." index="4"]
 
+pause_mode = 2
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
@@ -107,6 +110,28 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/hit = SubResource( 2 )
 blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
+_sections_unfolded = [ "Pause", "Playback Options" ]
+
+[node name="ActionSound" type="AudioStreamPlayer2D" parent="." index="5"]
+
+stream = ExtResource( 4 )
+volume_db = -25.0
+pitch_scale = 3.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="." index="6"]
+
+stream = ExtResource( 5 )
+volume_db = -28.0
+pitch_scale = 1.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 0
 
 

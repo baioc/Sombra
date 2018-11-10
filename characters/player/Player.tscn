@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=2]
-[ext_resource path="res://characters/shadow.png" type="Texture" id=3]
+[ext_resource path="res://sound/hit.wav" type="AudioStream" id=3]
+[ext_resource path="res://characters/shadow.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -66,16 +67,17 @@ collision_mask = 5
 script = ExtResource( 2 )
 _sections_unfolded = [ "Collision", "Visibility" ]
 base_speed = 120
-knockback_percent = 5
+max_health = 150
+knockback_percent = 8
 hit_duration = 1.4
 damage = 20
 attack_cooldown = 0.2
 dash_speed = 400
 max_energy = 100
-dash_cost = 20
+dash_cost = 25
 energy_regen = 5
 dash_duration = 0.666
-energy_regen_delay = 0.5
+energy_regen_delay = 0.7
 
 [node name="Sprite" parent="." index="0"]
 
@@ -89,7 +91,19 @@ shape = SubResource( 1 )
 
 editor/display_folded = true
 
-[node name="Trail" type="Particles2D" parent="." index="5"]
+[node name="ActionSound" parent="." index="5"]
+
+volume_db = -23.0
+pitch_scale = 2.0
+area_mask = 2
+
+[node name="HitSound" parent="." index="6"]
+
+stream = ExtResource( 3 )
+volume_db = -14.0
+area_mask = 2
+
+[node name="Trail" type="Particles2D" parent="." index="7"]
 
 modulate = Color( 0.376471, 0.376471, 0.376471, 1 )
 show_behind_parent = true
@@ -108,7 +122,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
 process_material = SubResource( 4 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -117,7 +131,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Camera" type="Camera2D" parent="." index="6"]
+[node name="Camera" type="Camera2D" parent="." index="8"]
 
 light_mask = 16
 anchor_mode = 1
@@ -135,23 +149,23 @@ smoothing_enabled = false
 smoothing_speed = 5.0
 offset_v = 0.0
 offset_h = 0.0
-drag_margin_left = 0.4
-drag_margin_top = 0.3
-drag_margin_right = 0.4
-drag_margin_bottom = 0.3
+drag_margin_left = 0.3
+drag_margin_top = 0.2
+drag_margin_right = 0.3
+drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = true
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Drag Margin", "Visibility" ]
 
-[node name="DashTimer" type="Timer" parent="." index="7"]
+[node name="DashTimer" type="Timer" parent="." index="9"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="RegenTimer" type="Timer" parent="." index="8"]
+[node name="RegenTimer" type="Timer" parent="." index="10"]
 
 process_mode = 1
 wait_time = 1.0

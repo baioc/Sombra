@@ -4,19 +4,22 @@ extends "res://characters/Character.gd"
 # Sinais
 signal enemy_death
 
+# Constantes
+const slow_ratio = 4	# deixa o inimigo mais lento enquanto "luta"
+
 # Estados
 enum STATE { IDLE, CHASE, FIGHT }
-var state
-var dir
-var target
 
-# Variaveis
+# Configuraveis
 export (float) var chase_speed = 85
 export (float) var detect_range = 275
 export (float) var attack_range = 70
 export (float) var roam_delay = 2.5
 
-const slow_ratio = 4	# deixa o inimigo mais lento enquanto luta
+# Variaveis
+var state
+var dir
+var target
 
 
 # Inicializacao
@@ -45,17 +48,15 @@ func _ready():
 func control(delta):
 	match state:
 		CHASE:
-			$Sprite.modulate = Color8(255, 128, 0)	# @debug enemy state
 			chase(target)
 		FIGHT:
-			$Sprite.modulate = Color8(255, 0, 0)
 			fight(target)
 		IDLE:
-			$Sprite.modulate = Color8(0, 0, 0)
 			roam()
 
 func die():
-	emit_signal('enemy_death')
+	# avisa os interessados
+	emit_signal('enemy_death', self)
 	queue_free()
 
 
@@ -81,6 +82,8 @@ func _on_DetectRange_body_entered(body):
 # Perdeu o alvo
 func _on_DetectRange_body_exited(body):
 	if body == target:
+		if $DetectRange.overlaps_body(body):
+			dir = ZERO	# fica parado depois do player levar knockback
 		target = null
 		state = IDLE
 		$RoamTimer.start()
@@ -91,6 +94,8 @@ func _on_AttackRange_body_entered(body):
 		target = body
 	if body == target:
 		state = FIGHT
+		if not $GrowlSound.playing:
+			$GrowlSound.play()
 		if $AttackTimer.is_stopped():
 			$AttackTimer.start()	# espera para atacar, nao seria preciso com animacao
 

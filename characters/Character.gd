@@ -17,6 +17,7 @@ export (float) var hit_duration = 1	# @note funciona pq a animacao 'hit' dura 1 
 export (int) var damage = 10
 export (float) var attack_cooldown = 2
 export (PackedScene) var attack
+const DISPLACEMENT = 16
 
 
 # Inicializacao
@@ -28,8 +29,7 @@ func _ready():
 # Game Loop
 func _physics_process(delta):
 	control(delta)
-	# move_and_slide(velocity)
-	position += velocity * delta	# @note update manual da posicao ignora colisoes
+	move_and_slide(velocity)
 
 
 # Aplicacao de dano
@@ -47,12 +47,14 @@ func take_hit(damage, attack_direction=null):
 		die()
 
 
-# joga na direcao do parametro, pisca e desabilita colisao por um tempo
+# Joga na direcao do parametro, pisca e desabilita colisao por um tempo
 func knockback(direction=null):
 	$Animator.play('hit', -1, 1/hit_duration)
+	$HitSound.play()
 	if direction != null:
-		position += direction.normalized() * $Sprite.texture.get_width()
+		position += direction.normalized() * DISPLACEMENT * scale.x
 
+# Ataque
 func attack(direction):
 	if $AttackTimer.is_stopped():
 		var new_attack = attack.instance()
@@ -60,6 +62,7 @@ func attack(direction):
 		$Weapon/AttackContainer.add_child(new_attack)
 		new_attack.execute(damage, collision_mask)
 		$AttackTimer.start()
+		$ActionSound.play()
 
 func control(delta):
 	# update velocity

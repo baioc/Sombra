@@ -27,7 +27,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.2 ), Vector2( 1, 1 ) ]
 }
 
-[node name="Attack" type="Area2D"]
+[node name="Attack" type="Area2D" index="0"]
 
 light_mask = 4
 position = Vector2( 10, 0 )
@@ -37,7 +37,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 collision_layer = 8
-collision_mask = 0
+collision_mask = 15
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
