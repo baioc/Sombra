@@ -1,0 +1,70 @@
+0. COPYRIGHT INFORMATION
+
+Copyright (c) 2019
+All rights reserved.
+
+Software: Sombra
+Licensors: Anderson Hermann Notholt <andersonkamael@gmail.com>
+           Gabriel Baiocchi de Sant'Anna <baiocchi.gabriel@gmail.com>
+
+
+1. LICENSE GRANT
+
+	It is hereby granted to each recipient of this Software ("you") a
+non-exclusive, royalty-free and fully-paid-up license to use, prepare
+derivative works of, distribute and display the Software, with or without
+modification, provided ALL of the CONDITIONS set forth below are met or
+another written License is provided to you exclusively by the Licensor.
+
+
+2. CONDITIONS
+
+	a) Redistribution in source code or other forms must include a copy of this
+	License to be provided in a reasonable manner. Any redistribution of the
+	Software is only allowed subject to this License.
+
+	b) This License does not grant you any ownership in the trademarks, service
+	marks, brand names or logos of Licensor.
+
+	c) All redistributions in source code or any other form, with or without
+	modification, must include the Licensor's public name as the author of ONLY
+	the parts which have NOT been modified.
+
+	d) Redistribution of this Software in source or binary forms shall be free
+	of all charges to the recipient. This does not include charging for content
+	not included in the original source (this Software as it is).
+
+
+3. TERMINATION
+
+	You may not propagate or modify a covered work except as expressly
+provided under this License.  Any attempt otherwise to propagate or
+modify it is void, and will automatically terminate your rights under
+this License.
+
+	If you violate the terms of this License, your rights will terminate
+automatically and will not be reinstated without the prior written consent of
+Licensor.
+
+	Any such terminations will not affect the right of others who may have
+received copies of the Software from you.
+
+
+4. DISCLAIMER
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED.
+
+IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
